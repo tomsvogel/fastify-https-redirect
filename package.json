@@ -1,0 +1,46 @@
+{
+  "name": "fastify-https-redirect",
+  "version": "0.0.1",
+  "description": "Plugin for fastify to forward http requests to https",
+  "main": "plugin.js",
+  "types": "plugin.d.ts",
+  "scripts": {
+    "test": "tap test/*.test.js && npm run typescript",
+    "test-ci": "tap --cov test/*.test.js && npm run typescript",
+    "lint": "standard | snazzy",
+    "lint-ci": "standard --fix",
+    "typescript": "tsc --project ./tsconfig.json"
+  },
+  "precommit": [
+    "lint",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tomsvogel/fastify-https-redirect.git"
+  },
+  "keywords": [
+    "fastify",
+    "https",
+    "redirect"
+  ],
+  "author": "Thomas Vogel<toms.vogel@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomsvogel/fastify-https-redirect/issues"
+  },
+  "homepage": "https://github.com/tomsvogel/fastify-https-redirect#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.6",
+    "fastify": "^2.0.0",
+    "pre-commit": "^1.2.2",
+    "request": "^2.83.0",
+    "snazzy": "^8.0.0",
+    "standard": "^14.0.2",
+    "tap": "^12.6.6",
+    "typescript": "^3.3.1"
+  },
+  "dependencies": {
+    "fastify-plugin": "^1.4.0"
+  }
+}
