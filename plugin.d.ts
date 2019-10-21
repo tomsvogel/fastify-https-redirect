@@ -10,7 +10,7 @@ declare const fastifyHttpsRedirect: Plugin<
   Server,
   HttpRequest,
   HttpResponse,
-  {},
+  {httpPort?: number},
   (err?: FastifyError | undefined) => void
 >;
 

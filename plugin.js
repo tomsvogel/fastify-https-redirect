@@ -1,21 +1,31 @@
-'use strict'
-const fp = require('fastify-plugin')
+'use strict';
+const fp = require('fastify-plugin');
+const http = require('http');
 
-async function fastifyCookieOnReqHandler (fastifyReq, fastifyRes) {
-  const { hostname } = fastifyReq
-  const { connection, originalUrl } = fastifyReq.req
-  if (!connection.ssl) {
-    const redirectUrl = `https://${hostname.split(':')[0]}${originalUrl}`
-    fastifyRes.redirect(301, redirectUrl)
-  }
-}
+function plugin(fastify, options, next) {
+  const httpPort = options.httpPort ? options.httpPort : 80;
+  const server = http
+    .createServer(function(req, res) {
+      const {
+        headers: {host},
+        url,
+      } = req;
+      const redirectUrl = `https://${host.split(':')[0]}${url}`;
+      res.writeHead(301, {
+        Location: redirectUrl,
+      });
+      res.end();
+    })
+    .listen(httpPort);
 
-function plugin (fastify, options, next) {
-  fastify.addHook('onRequest', fastifyCookieOnReqHandler)
-  next()
+  fastify.addHook('onClose', (_, done) => {
+    server.close();
+    done();
+  });
+  next();
 }
 
 module.exports = fp(plugin, {
   fastify: '>=2.0.0',
-  name: 'fastify-https-redirect'
-})
+  name: 'fastify-https-redirect',
+});
