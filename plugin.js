@@ -9,12 +9,14 @@ function plugin(fastify, options, next) {
       const {
         headers: { host },
         url
-      } = req;
-      const redirectUrl = `https://${host.split(":")[0]}${url}`;
-      res.writeHead(301, {
-        Location: redirectUrl
-      });
-      res.end();
+      } = req;      
+      if (host) {
+        const redirectUrl = `https://${host.split(":")[0]}${url}`;
+        res.writeHead(301, {
+          Location: redirectUrl
+        });
+        res.end();
+      }
     })
     .listen(httpPort);
 
