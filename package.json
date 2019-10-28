@@ -1,6 +1,6 @@
 {
   "name": "fastify-https-redirect",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Plugin for fastify to forward http requests to https",
   "main": "plugin.js",
   "types": "plugin.d.ts",
