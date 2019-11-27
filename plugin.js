@@ -21,8 +21,14 @@ function plugin(fastify, options, next) {
     .listen(httpPort);
 
   fastify.addHook("onClose", (_, done) => {
-    server.close();
-    done();
+    server.close(function(err) {
+      if(err) {
+        throw err;
+      } else {
+        done();
+      }
+    });
+    
   });
   next();
 }
