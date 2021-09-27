@@ -29,7 +29,13 @@ const server = Fastify({
       cert: fs.readFileSync(path.resolve(__dirname, './yourSSL.cert')),
     },
   });
-server.register(httpsRedirect,{httpPort:1080});
+server.register(httpsRedirect, {httpPort:1080});
+```
+
+With custom http Port and https redirect Port
+
+```js
+server.register(httpsRedirect,{httpPort:1080, httpsPort:10443});
 ```
 
 ## License

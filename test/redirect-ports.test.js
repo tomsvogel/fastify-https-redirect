@@ -22,7 +22,7 @@ function doRequest (url, options) {
   })
 }
 
-test('check next() on https request', async t => {
+test('check next() on https request with custom ports', async t => {
   const server = Fastify({
     http2: true,
     https: {
@@ -31,7 +31,7 @@ test('check next() on https request', async t => {
       cert: fs.readFileSync(path.resolve(__dirname, './fastify.cert'))
     }
   })
-  server.register(httpsRedirect)
+  server.register(httpsRedirect, { httpPort: 3000, httpsPort: 10443 })
 
   server.get('/test', (req, reply) => {
     reply.code(200).send('success')
@@ -51,12 +51,13 @@ test('check next() on https request', async t => {
   }
   reqOpts = {
     method: 'GET',
-    baseUrl: 'http://localhost',
+    baseUrl: 'http://localhost:3000',
     followRedirect: false
   }
   try {
     const response = await doRequest('/test', reqOpts)
     t.strictEqual(response.statusCode, 301)
+    t.strictEqual(response.headers.location, 'https://localhost:10443/test')
   } catch (err) {
     t.error(err)
   }
